@@ -24,3 +24,7 @@ It allows users to ask natural language questions about a software repository an
 3. **Answer Generation**:  
    - The retrieved context is passed into an LLM with the user’s question.  
    - The LLM generates a grounded and contextually accurate answer.  
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
