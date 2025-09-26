@@ -1,4 +1,12 @@
-# RepoQA: Repository-level Question Answering with RAG
+# RepoQA: Repository-le3. **Answer Generation**:  
+   - The retrieved context is passed into an LLM with the user's question.  
+   - The LLM generates a grounded and contextually accurate answer.  
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Copyright © 2025 Afif Al Mamun Question Answering with RAG
 
 Copyright © 2025 Afif Al Mamun Question Answering with RAG
 
