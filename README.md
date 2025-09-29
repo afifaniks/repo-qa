@@ -1,6 +1,5 @@
 # RepoQA: Repository-level Question Answering with RAG
 
-[![License Check](https://github.com/afifaniks/repo-qa/actions/workflows/license-check.yml/badge.svg)](https://github.com/afifaniks/repo-qa/actions/workflows/license-check.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ![](assets/preview.jpg)
@@ -65,5 +64,5 @@ All dependencies are checked for license compatibility. See our:
 - [OSS Component Usage Policy](CONTRIBUTING.md#oss-component-usage-policy) for contribution guidelines
 - [License Policy Quick Reference](docs/license-policy.md) for allowed/prohibited licenses
 
-### Generative AI Usage
+## Generative AI Usage
 GitHub Copilot with Claude Sonnet 4 was used to generate boilerplates, documentation, etc. of this project. However, all the generated contents were manually validated.
