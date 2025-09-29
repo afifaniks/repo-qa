@@ -1,5 +1,8 @@
 # RepoQA: Repository-level Question Answering with RAG
 
+[![License Check](https://github.com/afifaniks/repo-qa/actions/workflows/license-check.yml/badge.svg)](https://github.com/afifaniks/repo-qa/actions/workflows/license-check.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ![](assets/preview.jpg)
 <small><i>Image generated with ChatGPT</i></small>
 
@@ -25,6 +28,45 @@ It allows users to ask natural language questions about a software repository an
    - The retrieved context is passed into an LLM with the user’s question.  
    - The LLM generates a grounded and contextually accurate answer.  
 
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
+
+- How to set up the development environment
+- Our coding standards and style guide
+- How to submit changes and report bugs
+- Where to ask for help
+
+### Quick Start for Contributors
+
+```bash
+# Clone your fork
+git clone https://github.com/<your-username>/repo-qa.git
+cd repo-qa
+
+# Set up development environment
+make setup
+
+# Run tests to verify everything works
+make test
+
+# See all available commands
+make help
+```
+
+### Contributors
+
+Thanks to all the contributors who help make this project better!
+
+<!-- Contributors will be automatically added here -->
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### License Compliance
+
+All dependencies are checked for license compatibility. See our [NOTICE](NOTICE) file for third-party attributions and the current [License Status](docs/LICENSE_STATUS.md) for detailed information about dependency licenses.
+
+### Generative AI Usage
+GitHub Copilot with Claude Sonnet 4 was used to generate boilerplates, documentation, etc. of this project. However, all the generated contents were manually validated.

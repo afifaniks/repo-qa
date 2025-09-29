@@ -1,0 +1,94 @@
+NOTICE
+
+repo-qa
+Copyright (c) 2025 Afif Al Mamun
+
+This software contains code from the following third-party libraries and projects:
+
+================================================================================
+
+APACHE SOFTWARE LICENSE 2.0 COMPONENTS
+
+The following components are provided under the Apache Software License 2.0:
+
+chromadb
+Copyright (c) Jeff Huber <jeff@trychroma.com>, Anton Troynikov <anton@trychroma.com>
+License: Apache Software License
+
+sentence-transformers
+Copyright (c) Nils Reimers <info@nils-reimers.de>, Tom Aarsen <tom.aarsen@huggingface.co>
+License: Apache Software License
+
+transformers
+Copyright (c) The Hugging Face team (past and future) with the help of all our contributors (https://github.com/huggingface/transformers/graphs/contributors)
+License: Apache Software License
+
+================================================================================
+
+BSD LICENSE COMPONENTS
+
+The following components are provided under various BSD licenses:
+
+GitPython
+Copyright (c) Sebastian Thiel, Michael Trier
+License: BSD-3-Clause
+
+numpy
+Copyright (c) Travis E. Oliphant et al.
+License: BSD License
+
+torch
+Copyright (c) PyTorch Team
+License: BSD License
+
+================================================================================
+
+MIT LICENSE COMPONENTS
+
+The following components are provided under the MIT License:
+
+black
+Copyright (c) Łukasz Langa <lukasz@langa.pl>
+License: MIT License
+
+flake8
+Copyright (c) Tarek Ziade
+License: MIT License
+
+isort
+Copyright (c) Timothy Crosley <timothy.crosley@gmail.com>, staticdev <staticdev-support@proton.me>
+License: MIT License
+
+langchain
+License: MIT
+
+mypy
+Copyright (c) Jukka Lehtosalo <jukka.lehtosalo@iki.fi>
+License: MIT License
+
+pytest
+Copyright (c) Holger Krekel, Bruno Oliveira, Ronny Pfannschmidt, Floris Bruynooghe, Brianna Laugher, Florian Bruhin, Others (See AUTHORS)
+License: MIT License
+
+================================================================================
+
+OTHER LICENSES
+
+faiss-cpu
+Copyright (c) Kota Yamaguchi <yamaguchi_kota@cyberagent.co.jp>
+License: UNKNOWN
+
+llama-index
+Copyright (c) Jerry Liu <jerry@llamaindex.ai>
+License: UNKNOWN
+
+================================================================================
+
+This NOTICE file is provided for compliance with the license terms of the
+included third-party software. The original license texts for each component
+can be found in their respective package directories or at their project
+repositories.
+
+For questions about licensing, please contact: afifaniks@gmail.com
+
+Last updated: September 29, 2025
