@@ -13,6 +13,7 @@ We welcome and encourage all kinds of contributions to Repo-QA! This project aim
 - [How to Report a Bug](#how-to-report-a-bug)
 - [How to Request an Enhancement](#how-to-request-an-enhancement)
 - [Style Guide & Coding Conventions](#style-guide--coding-conventions)
+- [OSS Component Usage Policy](#oss-component-usage-policy)
 - [Code of Conduct](#code-of-conduct)
 - [Where Can I Ask for Help?](#where-can-i-ask-for-help)
 
@@ -22,6 +23,7 @@ We welcome and encourage all kinds of contributions to Repo-QA! This project aim
 - **Bug Reports**: [GitHub Issues](https://github.com/afifaniks/repo-qa/issues) - Report bugs and request features
 - **License**: [LICENSE](LICENSE) - MIT License details
 - **License Compliance**: [NOTICE](NOTICE) - Third-party attributions
+- **OSS Policy**: [OSS Component Usage Policy](#oss-component-usage-policy) - Guidelines for dependencies
 
 ## Testing
 
@@ -95,6 +97,9 @@ We follow the GitHub Flow for contributions:
    
    # Run tests
    make test
+   
+   # Check license compliance (if adding dependencies)
+   make license-check
    ```
 
 3. **Commit with clear messages** following conventional commits:
@@ -110,9 +115,17 @@ We follow the GitHub Flow for contributions:
 
 5. **Fill out the PR template** with:
    - Clear description of changes
-   - Link to related issues
+   - Link to related issues  
    - Screenshots/examples if applicable
+   - License compliance confirmation (for dependency changes)
    - Checklist completion
+
+### Dependencies and Licensing
+
+If your changes add, remove, or modify dependencies, please review our [OSS Component Usage Policy](#oss-component-usage-policy) and ensure:
+- All new dependencies use compatible licenses
+- License checker passes: `make license-check`
+- NOTICE file is updated if needed: `make generate-notice-direct`
 
 ## How to Report a Bug 🐞🪲🐛
 
@@ -261,6 +274,153 @@ We maintain the following branch naming convention:
 - Task: task/add_task_y
 - BugFix: bugfix/fix_bug_that_doesnt_work
 - Patch: patch/patch_not_working_release
+
+## OSS Component Usage Policy
+
+To ensure license compatibility and maintain project quality, contributors must follow these guidelines when adding or modifying dependencies:
+
+### License Compatibility Requirements
+
+#### Allowed Licenses
+
+We allow permissive licenses. Example:
+- **MIT License** - Permissive, compatible with our project
+- **Apache-2.0** - Permissive with patent grants
+- **BSD (2-Clause, 3-Clause)** - Simple permissive licenses
+
+#### Prohibited Licenses
+
+We do not comply with prohibitive copyleft licenses. Example:
+- **GPL (v2, v3)** - Strong copyleft that could restrict distribution
+- **AGPL** - Network copyleft incompatible with commercial use
+- **LGPL** - Weak copyleft requiring dynamic linking considerations
+- **CC-BY-SA** - Share-alike requirements incompatible with MIT
+- **Proprietary/Commercial** - Licensing restrictions and costs
+
+### Dependency Requirements
+
+**Source Requirements:**
+- **Use trusted sources only**: PyPI, conda-forge, or well-established repositories
+- **Avoid unofficial forks** unless absolutely necessary and pre-approved
+- **Check maintenance status**: Active development, recent releases, responsive maintainers
+- **Security considerations**: No known vulnerabilities, good security track record
+
+**Before Adding Dependencies:**
+
+1. **Check if it's really needed** - Can the functionality be implemented internally?
+2. **Evaluate alternatives** - Are there lighter-weight or better-maintained options?
+3. **Check the dependency tree** - What transitive dependencies does it bring?
+4. **Verify license compatibility** - Use our license checker: `make license-check`
+
+### Approval Process
+
+**For New Dependencies:**
+
+1. **Open an issue first** to discuss the need and proposed dependency
+2. **Include in your PR description:**
+   - Why this dependency is needed
+   - License information and compatibility assessment
+   - Alternative options considered
+   - Dependency size and impact analysis
+   - Link to the package's repository and documentation
+
+3. **Run license checks:**
+   ```bash
+   # After adding the dependency
+   make license-check
+   
+   # Generate updated NOTICE file
+   make generate-notice-direct
+   ```
+
+4. **Maintainer review** will verify:
+   - License compatibility with project goals
+   - Security and maintenance considerations
+   - Impact on project size and complexity
+   - Alignment with project architecture
+
+### License Checking Tools
+
+We provide automated tools to help maintain compliance:
+
+```bash
+# Check all licenses and compatibility
+make license-check
+
+# Generate detailed license report  
+make license-report
+
+# Generate JSON format for CI/CD
+make license-json
+
+# Update NOTICE file with attributions
+make generate-notice-direct
+```
+
+### Common License Scenarios
+
+**✅ Safe to add:**
+```bash
+# MIT licensed package
+pip install some-mit-package
+
+# Apache-2.0 with patent grants
+pip install apache-licensed-tool
+
+# BSD-style permissive license
+pip install bsd-utility
+```
+
+**⚠️ Requires discussion:**
+```bash
+# Multiple licenses (need to verify)
+pip install dual-licensed-package
+
+# Custom license (needs manual review)
+pip install custom-license-tool
+```
+
+**❌ Not allowed:**
+```bash
+# GPL licensed (copyleft)
+pip install gpl-package
+
+# Proprietary with restrictions
+pip install commercial-only-tool
+```
+
+### Handling License Issues
+
+**If you're unsure about a license:**
+1. **Create an issue** with the package name and license details
+2. **Don't include it in your PR** until approved
+3. **Provide context** about why you need this specific package
+4. **Suggest alternatives** if you know of any
+
+**If our license checker flags an issue:**
+1. **Don't ignore the warning** - it's there for a reason
+2. **Check if it's a false positive** (sometimes license metadata is incorrect)
+3. **Look for alternative packages** with compatible licenses
+4. **Discuss with maintainers** if you believe it should be allowed
+
+### Contributing to License Policy
+
+This policy evolves with the project. If you have suggestions for improvements:
+
+- **Open an issue** to discuss policy changes
+- **Provide examples** of packages that should be allowed/prohibited
+- **Share experiences** with license compatibility in your projects
+- **Help improve our tooling** for automated license checking
+
+### Educational Resources
+
+**Learn more about open source licenses:**
+- [Choose a License](https://choosealicense.com/) - License comparison tool
+- [SPDX License List](https://spdx.org/licenses/) - Standard license identifiers
+- [GitHub License Guide](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository) - Repository licensing
+- [OSI Approved Licenses](https://opensource.org/licenses) - Open Source Initiative approved licenses
+
+**Questions about licensing?** Feel free to ask in [GitHub Discussions](https://github.com/afifaniks/repo-qa/discussions) or email afifaniks@gmail.com.
 
 ## Code of Conduct
 

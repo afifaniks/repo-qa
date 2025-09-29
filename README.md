@@ -54,19 +54,16 @@ make test
 make help
 ```
 
-### Contributors
-
-Thanks to all the contributors who help make this project better!
-
-<!-- Contributors will be automatically added here -->
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### License Compliance
+### OSS Component Usage Policy
 
-All dependencies are checked for license compatibility. See our [NOTICE](NOTICE) file for third-party attributions and the current [License Status](docs/LICENSE_STATUS.md) for detailed information about dependency licenses.
+All dependencies are checked for license compatibility. See our:
+- [NOTICE](NOTICE) file for third-party attributions  
+- [OSS Component Usage Policy](CONTRIBUTING.md#oss-component-usage-policy) for contribution guidelines
+- [License Policy Quick Reference](docs/license-policy.md) for allowed/prohibited licenses
 
 ### Generative AI Usage
 GitHub Copilot with Claude Sonnet 4 was used to generate boilerplates, documentation, etc. of this project. However, all the generated contents were manually validated.
