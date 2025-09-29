@@ -76,3 +76,7 @@ models/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# Project
+chroma_data/
+repo_data/
