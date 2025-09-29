@@ -420,7 +420,7 @@ This policy evolves with the project. If you have suggestions for improvements:
 - [GitHub License Guide](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository) - Repository licensing
 - [OSI Approved Licenses](https://opensource.org/licenses) - Open Source Initiative approved licenses
 
-**Questions about licensing?** Feel free to ask in [GitHub Discussions](https://github.com/afifaniks/repo-qa/discussions) or email afifaniks@gmail.com.
+**Questions about licensing?** Feel free to ask in [GitHub Discussions](https://github.com/afifaniks/repo-qa/discussions) or email afif.mamun@ucalgary.ca.
 
 ## Code of Conduct
 
@@ -465,7 +465,7 @@ Don't hesitate to ask for help! Here are the best places:
    - Feature requests and enhancements
    - Documentation improvements
 
-3. **Direct Contact** - afifaniks@gmail.com
+3. **Direct Contact** - afif.mamun@ucalgary.ca
    - Private or sensitive matters
    - Collaboration opportunities
    - Code of Conduct concerns

@@ -574,7 +574,7 @@ included third-party software. The original license texts for each component
 can be found in their respective package directories or at their project
 repositories.
 
-For questions about licensing, please contact: afifaniks@gmail.com
+For questions about licensing, please contact: afif.mamun@ucalgary.ca
 
 Last updated: {datetime.now().strftime("%B %d, %Y")}"""
 
