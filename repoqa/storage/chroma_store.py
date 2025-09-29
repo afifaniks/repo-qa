@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Afif Al Mamun
+
 import uuid
 from typing import Any, Dict, List, Optional, Sequence
 
