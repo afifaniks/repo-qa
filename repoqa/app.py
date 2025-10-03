@@ -112,7 +112,7 @@ if __name__ == "__main__":
     repo_qa = RepoQA(
         persist_directory="./chroma_data",
         collection_name="demo_repo",
-        llm_model="unsloth/gemma-3-1b-it",
+        llm_model="unsloth/Qwen3-1.7B-unsloth-bnb-4bit",
     )
 
     # Index a repository
