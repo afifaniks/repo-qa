@@ -11,7 +11,8 @@ from repoqa.util.setup_util import setup
 
 setup()
 
-from repoqa.pipeline.langchain_rag import LangChainRAGPipeline  # noqa: E402
+from repoqa.pipeline.agentic_rag import AgenticRAGPipeline  # noqa: E402
+from repoqa.pipeline.rag import RAGPipeline  # noqa: E402
 
 
 class RepoQA:
@@ -19,28 +20,42 @@ class RepoQA:
 
     def __init__(
         self,
-        llm_model: str = "gemma3:1b",
+        llm_model: Any,
         persist_directory: Optional[str] = "./chroma_data",
         collection_name: str = "repo_qa",
         ollama_base_url: str = "http://localhost:11435",
+        mode: str = "hybrid",  # "rag", "agent", or "hybrid"
     ):
         """Initialize RepoQA with customizable components.
 
         Args:
-            llm_model: Name of the Ollama model (e.g., 'llama3.2:3b', 'codellama:7b').
+            llm_model: A supported llm model.
             persist_directory: Directory for vector store persistence.
             collection_name: Name for the vector store collection.
             ollama_base_url: Base URL for Ollama server.
+            mode: "rag" (vector search), "agent" (file tools), or
+                "hybrid" (RAG + tools).
         """
+        self.mode = mode
 
-        logger.info("Initializing RAG pipeline...")
-        self.rag_pipeline = LangChainRAGPipeline(
-            llm_model=llm_model,
-            persist_directory=persist_directory or "./chroma_data",
-            collection_name=collection_name,
-            ollama_base_url=ollama_base_url,
-            temperature=0.3,  # More focused responses
-        )
+        if mode == "agent":
+            logger.info("Initializing Agent pipeline...")
+            self.pipeline = AgenticRAGPipeline(
+                llm_model=llm_model,
+                persist_directory=persist_directory or "./chroma_data",
+                collection_name=collection_name,
+                ollama_base_url=ollama_base_url,
+                temperature=0.3,
+            )
+        else:
+            logger.info("Initializing RAG pipeline...")
+            self.pipeline = RAGPipeline(
+                llm_model=llm_model,
+                persist_directory=persist_directory or "./chroma_data",
+                collection_name=collection_name,
+                ollama_base_url=ollama_base_url,
+                temperature=0.3,
+            )
 
     def index_repository(
         self,
@@ -56,7 +71,7 @@ class RepoQA:
         Returns:
             Dictionary with indexing results and metadata.
         """
-        return self.rag_pipeline.index_repository(repo_path, clone_dir)
+        return self.pipeline.index_repository(repo_path, clone_dir)
 
     def ask(self, query: str) -> str:
         """Answer a question about the repository.
@@ -67,14 +82,16 @@ class RepoQA:
         Returns:
             Generated answer based on repository context.
         """
-        return self.rag_pipeline.ask(query)
+        return self.pipeline.ask(query)
 
 
 if __name__ == "__main__":
+    # Use agent mode by default - much more powerful for code exploration
     repo_qa = RepoQA(
         persist_directory="./chroma_data",
         collection_name="demo_repo",
-        llm_model=get_llm(model_name="gemma3:1b", backend="ollama"),
+        llm_model=get_llm("qwen3:1.7b", backend="ollama"),
+        mode="agent",
     )
 
     # Index a repository
@@ -87,8 +104,8 @@ if __name__ == "__main__":
 
     # Ask questions
     questions = [
-        "What is this project about?",
-        "How do I run this app?",
+        # "What is this project about?",
+        "What kind of licenses are permitted for dependencies?",
     ]
 
     for question in questions:
