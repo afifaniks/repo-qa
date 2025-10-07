@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📧 Direct Contact
+    url: mailto:afif.mamun@ucalgary.ca
+    about: For private matters, collaboration opportunities, or Code of Conduct concerns
+  - name: 📖 Documentation
+    url: https://github.com/afifaniks/repo-qa/blob/main/README.md
+    about: Check the README for installation and usage instructions
+  - name: 🤝 Contributing Guide
+    url: https://github.com/afifaniks/repo-qa/blob/main/CONTRIBUTING.md
+    about: Learn how to contribute to the project
