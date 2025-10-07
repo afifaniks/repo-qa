@@ -33,35 +33,29 @@ We provide structured issue templates to help you submit high-quality reports an
 
 ### Available Templates
 
-**🐛 [Bug Report](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBug%5D%3A+)**
+**[Bug Report](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBug%5D%3A+)**
 - Report problems with code functionality
 - Structured format for reproduction steps
 - Environment information collection
 - Automatic `bug` label assignment
 
-**✨ [Feature Request](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=story%2Ctask&template=feature_request.md&title=)**
+**[Feature Request](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=story%2Ctask&template=feature_request.md&title=)**
 - Suggest new functionality
 - Includes acceptance criteria section
 - Automatic `story` and `task` labels
 - Implementation interest tracking
 
-**🔧 [Enhancement Request](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=enhancement&template=enhancement_request.md&title=%5BEnhancement%5D%3A+)**
+**[Enhancement Request](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=enhancement&template=enhancement_request.md&title=%5BEnhancement%5D%3A+)**
 - Improve existing functionality
 - Alternative solutions consideration
 - Automatic `enhancement` label
 - Priority understanding acknowledgment
 
-**❓ [Question or Help](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=question%2Chelp+wanted&template=question.md&title=%5BQuestion%5D%3A+)**
+**[Question or Help](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=question%2Chelp+wanted&template=question.md&title=%5BQuestion%5D%3A+)**
 - Get help with RepoQA usage
 - Categorized question types
 - Context gathering framework
 - Automatic `question` and `help wanted` labels
-
-**📚 [Documentation Improvement](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=documentation%2Cgood+first+issue&template=documentation.md&title=%5BDocs%5D%3A+)**
-- Suggest documentation improvements
-- Target audience identification
-- Implementation interest tracking
-- Automatic `documentation` and `good first issue` labels
 
 ### How to Use Templates
 
@@ -71,13 +65,6 @@ We provide structured issue templates to help you submit high-quality reports an
 4. **Review before submitting** - ensure all relevant details are included
 5. **Engage with responses** - be ready to provide additional information if requested
 
-### Template Benefits
-
-- **Consistent information** - Ensures all necessary details are provided
-- **Faster resolution** - Structured format helps maintainers understand issues quickly
-- **Proper labeling** - Automatic labels help with issue organization and triage
-- **Guided process** - Templates educate contributors about project expectations
-- **Quality improvement** - Reduces incomplete or unclear issue reports
 
 ## Testing
 
