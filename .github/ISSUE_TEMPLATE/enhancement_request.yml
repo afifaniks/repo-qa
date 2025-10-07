@@ -1,0 +1,101 @@
+name: Enhancement Request
+description: Suggest an improvement to existing functionality
+title: "[Enhancement]: "
+labels: ["enhancement"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an enhancement! Enhancements are improvements to existing functionality and may have lower priority than bugs or new features.
+
+  - type: textarea
+    id: enhancement-description
+    attributes:
+      label: Enhancement Description
+      description: A clear and concise description of the enhancement.
+      placeholder: Describe the enhancement you'd like to see...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-solved
+    attributes:
+      label: Problem It Solves
+      description: What problem does this enhancement solve? Is it related to frustration with existing functionality?
+      placeholder: What problem or frustration does this enhancement address?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see.
+      placeholder: How would you like this enhancement to work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternative-solutions
+    attributes:
+      label: Alternative Solutions
+      description: Describe any alternative solutions you've considered.
+      placeholder: What other approaches have you considered?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: current-functionality
+    attributes:
+      label: Current Functionality Impact
+      description: How does this relate to current functionality?
+      options:
+        - Improves existing feature performance
+        - Adds options/configuration to existing feature
+        - Changes existing feature behavior
+        - Fixes usability issues with existing feature
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-impact
+    attributes:
+      label: User Impact
+      description: How many users would benefit from this enhancement?
+      options:
+        - All users would benefit
+        - Most users would benefit
+        - Some users would benefit
+        - Specific use case/niche users
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the enhancement here.
+      placeholder: |
+        - Screenshots, mockups, or examples
+        - Links to related issues or discussions
+        - Any other relevant context
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm you've completed these steps
+      options:
+        - label: I have searched existing issues to ensure this isn't a duplicate
+          required: true
+        - label: I have considered whether this should be a feature request instead of an enhancement
+          required: true
+        - label: I understand that enhancements may have lower priority than bugs or new features
+          required: true
+        - label: I agree to follow this project's Code of Conduct
+          required: true
