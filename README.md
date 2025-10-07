@@ -36,6 +36,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - How to submit changes and report bugs
 - Where to ask for help
 
+To see the current status of the project, please have a look at [RepoQA Kanban Board](https://github.com/users/afifaniks/projects/9/).
+
 ### Quick Start for Contributors
 
 ```bash

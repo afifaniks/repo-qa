@@ -7,10 +7,12 @@ We welcome and encourage all kinds of contributions to Repo-QA! This project aim
 ## Table of Contents
 
 - [Quick Links to Important Resources](#quick-links-to-important-resources)
+- [Using GitHub Issue Templates](#using-github-issue-templates)
 - [Testing](#testing)
 - [Environment Setup](#environment-setup)
 - [How to Submit Changes](#how-to-submit-changes)
 - [How to Report a Bug](#how-to-report-a-bug)
+- [How to Request a Feature](#how-to-request-a-feature)
 - [How to Request an Enhancement](#how-to-request-an-enhancement)
 - [Style Guide & Coding Conventions](#style-guide--coding-conventions)
 - [OSS Component Usage Policy](#oss-component-usage-policy)
@@ -24,6 +26,45 @@ We welcome and encourage all kinds of contributions to Repo-QA! This project aim
 - **License**: [LICENSE](LICENSE) - MIT License details
 - **License Compliance**: [NOTICE](NOTICE) - Third-party attributions
 - **OSS Policy**: [OSS Component Usage Policy](#oss-component-usage-policy) - Guidelines for dependencies
+
+## Using GitHub Issue Templates
+
+We provide structured issue templates to help you submit high-quality reports and requests. When you create a new issue, you'll be presented with template options to choose from.
+
+### Available Templates
+
+**[Bug Report](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBug%5D%3A+)**
+- Report problems with code functionality
+- Structured format for reproduction steps
+- Environment information collection
+- Automatic `bug` label assignment
+
+**[Feature Request](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=story%2Ctask&template=feature_request.md&title=)**
+- Suggest new functionality
+- Includes acceptance criteria section
+- Automatic `story` and `task` labels
+- Implementation interest tracking
+
+**[Enhancement Request](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=enhancement&template=enhancement_request.md&title=%5BEnhancement%5D%3A+)**
+- Improve existing functionality
+- Alternative solutions consideration
+- Automatic `enhancement` label
+- Priority understanding acknowledgment
+
+**[Question or Help](https://github.com/afifaniks/repo-qa/issues/new?assignees=&labels=question%2Chelp+wanted&template=question.md&title=%5BQuestion%5D%3A+)**
+- Get help with RepoQA usage
+- Categorized question types
+- Context gathering framework
+- Automatic `question` and `help wanted` labels
+
+### How to Use Templates
+
+1. **Visit [New Issue](https://github.com/afifaniks/repo-qa/issues/new/choose)**
+2. **Select the appropriate template** for your needs
+3. **Fill out all sections** - the template guides you through required information
+4. **Review before submitting** - ensure all relevant details are included
+5. **Engage with responses** - be ready to provide additional information if requested
+
 
 ## Testing
 
@@ -127,9 +168,22 @@ If your changes add, remove, or modify dependencies, please review our [OSS Comp
 - License checker passes: `make license-check`
 - NOTICE file is updated if needed: `make generate-notice-direct`
 
-## How to Report a Bug 🐞🪲🐛
+## How to Report a Bug
 
 Bugs are problems in code functionality or... or... "unxepected" behavior. We appreciate bug reports!
+
+### Using the Bug Report Template
+
+We provide a structured bug report template to help you provide all necessary information:
+
+1. **Go to [New Issue](https://github.com/afifaniks/repo-qa/issues/new/choose)**
+2. **Select "Bug Report"** from the template options
+3. **Fill out all sections** of the template - the template will guide you through providing:
+   - Clear bug description
+   - Reproduction steps
+   - Expected vs actual behavior
+   - Environment details (OS, Python version, etc.)
+   - Additional context
 
 ### Before Submitting a Bug Report
 
@@ -160,7 +214,7 @@ What actually happened.
 **Environment**
 - OS: [e.g., macOS 12.0, Ubuntu 20.04, Windows 11]
 - Python version: [e.g., 3.9.0]
-- Repo-QA version: [e.g., 1.0.0]
+- RepoQA version: [e.g., 1.0.0]
 - Virtual environment: [yes/no]
 
 **Additional Context**
@@ -168,6 +222,7 @@ What actually happened.
 - Screenshots if applicable
 - Any other relevant information
 ```
+Finally, set the issue label to `bug`.
 
 ### Good First Issues
 
@@ -177,9 +232,126 @@ Looking for your first contribution? Look for issues labeled:
 - `documentation` - Improve our docs
 - `bug` with `low priority` - Good learning opportunities
 
+## How to Request a Feature
+
+We love hearing about new features that could make RepoQA better! Here's how to effectively request a feature:
+
+### Using the Feature Request Template
+
+We provide a structured feature request template to ensure your request includes all necessary details:
+
+1. **Go to [New Issue](https://github.com/afifaniks/repo-qa/issues/new/choose)**
+2. **Select "Feature Request"** from the template options
+3. **Fill out the template** which will guide you through:
+   - Clear feature description
+   - Problem the feature solves
+   - Acceptance criteria
+   - Examples or mockups
+   - Pre-submission checklist
+
+### Step-by-Step Feature Request Process
+
+#### 1. Research First
+- **Check existing issues** - your idea might already be discussed
+- **Review the roadmap** - see if it's already planned
+- **Browse closed issues** - understand why similar requests may have been declined
+
+#### 2. Use Our Template
+
+The template at [GitHub Issues](https://github.com/afifaniks/repo-qa/issues/new/choose) will help you include:
+
+**Feature Title**: Use format "[Brief description]"
+- ✅ Good: Add support for GitLab repositories"
+- ❌ Bad: "GitLab"
+- Labels: `story`, `task`
+
+**Feature Description**: Explain what you want
+```markdown
+**What feature would you like to see?**
+A clear, concise description of the feature you'd like added.
+
+**Why do you need this feature?**
+Explain the problem this feature would solve or the value it would add.
+
+**Acceptance Criteria**
+Describe how you envision the feature working from a user's perspective.
+
+**Examples or mockups**
+If applicable, add screenshots, code examples, or mockups.
+```
+
+Here's an example:
+
+```
+Issue Title: Dockerize the application
+
+As a developer, I want to dockerize the application for easier deployment and delivery.
+
+**Acceptance Criteria**
+
+- A Dockerfile that allows building the image
+- A docker-compose file for easier orchastration
+- A dockerignore file
+```
+
+#### 3. What Makes a Good Feature Request?
+
+**✅ Do:**
+- Clearly explain the use case
+- Provide context about your workflow
+- Suggest implementation ideas if you have them
+- Include examples or references
+- Be specific about expected behavior
+
+**❌ Don't:**
+- Request features that conflict with project goals
+- Assume implementation details without research
+- Make demands or set unrealistic timelines
+- Ignore feedback from maintainers
+
+#### 5. After Submitting Your Request
+
+- **Be patient** - maintainers review requests carefully
+- **Respond to questions** - provide clarification when asked
+- **Consider contributing** - offer to help implement the feature
+- **Understand priorities** - not all features can be implemented immediately
+
+### Feature Request Priority
+
+Features are prioritized based on:
+
+1. **Alignment with project vision**
+2. **Number of users who would benefit**
+3. **Implementation complexity**
+4. **Maintenance burden**
+5. **Available contributor time**
+
+### Want to Implement It Yourself?
+
+If you're interested in implementing the feature yourself:
+
+1. **Comment on the issue** expressing interest
+2. **Wait for maintainer approval** before starting work
+3. **Discuss implementation approach** 
+4. **Follow the development process** outlined in this guide
+5. **Submit a pull request** when ready
+
 ## How to Request an Enhancement
 
-Enhancements are new features or improvements to existing functionality.
+Enhancements are improvements to existing functionality. Please note that, some enhancements may be of less priority than a bug or feature.
+
+### Using the Enhancement Request Template
+
+We provide a structured enhancement request template:
+
+1. **Go to [New Issue](https://github.com/afifaniks/repo-qa/issues/new/choose)**
+2. **Select "Enhancement Request"** from the template options
+3. **Fill out the template** which includes:
+   - Enhancement description
+   - Problem it solves
+   - Proposed solution
+   - Alternative solutions
+   - Pre-submission checklist
 
 ### Before Submitting an Enhancement
 
@@ -187,7 +359,7 @@ Enhancements are new features or improvements to existing functionality.
 2. **Consider the scope** - is this aligned with project goals?
 3. **Think about implementation** - do you have ideas for how it could work?
 
-### Enhancement Request Template
+### Enhancement Request Template (Reference)
 
 ```markdown
 **Enhancement Description**
@@ -207,6 +379,16 @@ Describe any alternative solutions you've considered.
 - Links to related issues or discussions
 - Any other relevant context
 ```
+
+### How to Submit Your Enhancement Request
+
+1. **Search existing issues** first to avoid duplicates
+2. **Create a new issue** using the "Feature Request" template
+3. **Use a clear title** like "Improve encoding speed for  amd64 machines"
+4. **Fill out all template sections** with as much detail as possible
+5. **Add relevant labels** we use `enhancement`
+6. **Engage with maintainers** - be responsive to questions and feedback
+
 
 ## Style Guide & Coding Conventions
 
@@ -460,19 +642,23 @@ Project maintainers are responsible for clarifying standards and will take appro
 
 Don't hesitate to ask for help! Here are the best places:
 
-1. **GitHub Issues** - [Bug reports and feature requests](https://github.com/afifaniks/repo-qa/issues)
-   - Bug reports and technical issues
-   - Feature requests and enhancements
-   - Documentation improvements
+1. **GitHub Issues with Templates** - [Create New Issue](https://github.com/afifaniks/repo-qa/issues/new/choose)
+   - Use our **Question/Help template** for usage questions
+   - Use **Bug Report template** for technical issues
+   - Use **Feature Request template** for new functionality ideas
+   - Use **Documentation template** for documentation improvements
+   - Use **Enhancement template** for existing feature improvements
 
-3. **Direct Contact** - afif.mamun@ucalgary.ca
+2. **Direct Contact** - afif.mamun@ucalgary.ca
    - Private or sensitive matters
    - Collaboration opportunities
    - Code of Conduct concerns
 
 ### Best Practices for Getting Help
 
+- **Use the right template**: Choose the appropriate issue template for your question type
 - **Search first**: Check existing issues and discussions
+- **Fill out the template completely**: Don't skip sections - they help us help you
 - **Be specific**: Provide context, error messages, and environment details
 - **Be patient**: We're volunteers with day jobs, but we care about helping
 - **Be kind**: A little politeness goes a long way
@@ -489,8 +675,8 @@ Have questions about contributing? Here are common questions:
 
 ## License
 
-By contributing to Repo-QA, you agree that your contributions will be licensed under the [MIT License](LICENSE).
+By contributing to RepoQA, you agree that your contributions will be licensed under the [MIT License](LICENSE).
 
-**Thank you for contributing to Repo-QA!**
+**Thank you for contributing to RepoQA!**
 
 Every contribution, no matter how small, makes this project better. We appreciate your time, effort, and creativity in helping build something amazing together.
