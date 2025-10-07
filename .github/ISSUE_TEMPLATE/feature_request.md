@@ -2,7 +2,7 @@
 name: Feature Request
 about: Suggest a new feature for RepoQA
 title: ''
-labels: 'story, task'
+labels: 'story'
 assignees: ''
 
 ---
