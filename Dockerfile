@@ -1,9 +1,6 @@
 # Use Python base image
 FROM python:3.11-slim
 
-# Set noninteractive mode
-ENV DEBIAN_FRONTEND=noninteractive
-
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
@@ -33,6 +30,4 @@ RUN pip install -e .
 
 # --- Start Ollama + your app together ---
 # Start Ollama as a background process before running the app
-CMD ollama serve & \
-    sleep 5 && \
-    python -m repoqa.app
+CMD ollama serve & sleep 5 && python -m repoqa.app
