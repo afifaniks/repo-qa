@@ -45,7 +45,7 @@ class GitRepoIndexer(RepoIndexer):
     def __init__(
         self,
         embedding_model: EmbeddingModel,
-        chunk_size: int = 100,
+        chunk_size: int = 1024,
         batch_size: int = 32,
     ):
         super().__init__(embedding_model)

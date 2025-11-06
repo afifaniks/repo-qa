@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2025 Afif Al Mamun
 
+from repoqa.pipeline.agentic_rag import AgenticRAGPipeline
 from repoqa.pipeline.pipeline import Pipeline
 from repoqa.pipeline.rag import RAGPipeline
 
-__all__ = ["Pipeline", "RAGPipeline"]
+__all__ = ["Pipeline", "RAGPipeline", "AgenticRAGPipeline"]
