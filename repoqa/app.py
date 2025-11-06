@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # Index a repository
     print("Indexing repository...")
     result = repo_qa.index_repository(
-        repo_path="https://github.com/afifaniks/repo-qa",
+        repo_path="git@github.com:afifaniks/repo-qa.git",
         clone_dir="./repo_data",
     )
     print(f"Indexing completed: {result}")
@@ -106,6 +106,7 @@ if __name__ == "__main__":
     questions = [
         # "What is this project about?",
         "What kind of licenses are permitted for dependencies?",
+        # "How to run this application?",
     ]
 
     for question in questions:
