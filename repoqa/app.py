@@ -104,9 +104,10 @@ if __name__ == "__main__":
 
     # Ask questions
     questions = [
-        # "What is this project about?",
-        "What kind of licenses are permitted for dependencies?",
-        # "How to run this application?",
+        # "How the agent pipeline works?",
+        # "If I want to contribute to this project, which licenses I can use for new dependencies?",
+        # "Can I use copyleft licenses for this project?",
+        "How to run this application?",
     ]
 
     for question in questions:
