@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2025 Afif Al Mamun
-
+import re
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
@@ -15,6 +15,7 @@ from loguru import logger
 from repoqa.embedding import SentenceTransformerEmbedding
 from repoqa.indexing.git_indexer import GitRepoIndexer
 from repoqa.pipeline.pipeline import Pipeline
+from repoqa.pipeline.prompts import BASIC_RAG_PROMPT
 
 
 class RAGPipeline(Pipeline):
@@ -23,7 +24,7 @@ class RAGPipeline(Pipeline):
     def __init__(
         self,
         llm_model: Any,
-        embedding_model: str = "all-MiniLM-L6-v2",
+        embedding_model: str = "all-mpnet-base-v2",
         persist_directory: str = "./chroma_data",
         collection_name: str = "repo_qa",
         ollama_base_url: str = "http://localhost:11434",
@@ -53,15 +54,7 @@ class RAGPipeline(Pipeline):
         )
 
         # Create prompt template
-        self.prompt = PromptTemplate.from_template(
-            (
-                "You are a helpful code assistant. Use the provided code "
-                "context to answer the question clearly and concisely. \n\n"
-                "Context:\n{context}\n\n"
-                "Question: {question}\n\n"
-                "Answer:"
-            )
-        )
+        self.prompt = PromptTemplate.from_template(BASIC_RAG_PROMPT)
 
         self.safe_retriever = self._safe_retriever
 
@@ -78,13 +71,19 @@ class RAGPipeline(Pipeline):
         )
         self.indexer = GitRepoIndexer(self.embedding_model_obj)
 
+        # Track source files for attribution
+        self.source_files = []
+
     def _safe_retriever(self, query):
         """Safe retrieval that filters out invalid documents."""
         try:
-            # Use LangChain's built-in similarity search which handles embeddings
+            # Clear previous source files
+            self.source_files = []
+
+            # Use LangChain's built-in similarity search
             docs = self.vectorstore.similarity_search(query, k=5)
 
-            # Filter out invalid documents
+            # Filter out invalid documents and track sources
             valid_docs = []
             for i, doc in enumerate(docs):
                 if (
@@ -94,9 +93,16 @@ class RAGPipeline(Pipeline):
                 ):
                     logger.debug(f"Skipping invalid document {i}")
                     continue
+
+                # Track source file
+                file_path = doc.metadata.get("file_path", "unknown")
+                if file_path != "unknown" and file_path not in self.source_files:
+                    self.source_files.append(file_path)
+
                 valid_docs.append(doc)
 
             logger.info(f"Retrieved {len(valid_docs)} valid documents")
+            logger.info(f"Source files: {self.source_files}")
             return valid_docs
 
         except Exception as e:
@@ -208,6 +214,17 @@ class RAGPipeline(Pipeline):
             "chunks_processed": len(result["chunks"]),
         }
 
+    def _clean_response(self, response: str) -> str:
+        """Clean and format the generated response.
+
+        Args:
+            response: Raw response from the LLM.
+        Returns:
+            Cleaned response string.
+        """
+        response = re.sub(r"<think>.*?</think>", "", response, flags=re.DOTALL)
+        return response.strip()
+
     def ask(self, query: str) -> str:
         """Ask a question about the indexed repository.
 
@@ -223,17 +240,23 @@ class RAGPipeline(Pipeline):
             # Use the safe retriever to avoid invalid documents from
             # older indexes
             docs = self.safe_retriever(query)
-            logger.info(f"Retrieved {len(docs)} documents (safe)")
+            logger.info(f"Retrieved {len(docs)} documents")
 
             for i, doc in enumerate(docs):
                 if doc.page_content is None:
                     logger.warning(f"Document {i} has None page_content!")
-                else:
-                    logger.info(f"Document {i}: {len(doc.page_content)} chars")
 
             response = self.rag_chain.invoke(query)
             if response:
-                return response.strip()
+                answer = self._clean_response(response)
+
+                # Append source files if any were retrieved
+                if self.source_files:
+                    answer += "\n\n---\n**Sources:**\n" + "\n".join(
+                        f"- {src}" for src in self.source_files
+                    )
+
+                return answer
             return "I couldn't generate a response."
         except Exception as e:
             return f"Error generating response: {str(e)}"

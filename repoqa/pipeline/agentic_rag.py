@@ -24,7 +24,7 @@ class AgenticRAGPipeline(Pipeline):
     def __init__(
         self,
         llm_model: Any,
-        embedding_model: str = "all-MiniLM-L6-v2",
+        embedding_model: str = "all-mpnet-base-v2",
         persist_directory: str = "./chroma_data",
         collection_name: str = "repo_qa",
         ollama_base_url: str = "http://localhost:11434",
@@ -218,56 +218,6 @@ class AgenticRAGPipeline(Pipeline):
                 logger.error(f"Error reading file '{file_path}': {e}")
                 return f"Error reading file: {e}"
 
-        def find_files(pattern: str = "", extension: str = "") -> str:
-            """Find files by pattern or extension.
-
-            Args:
-                pattern: Search pattern in filename (case-insensitive).
-                extension: File extension to filter (without dot).
-
-            Returns:
-                List of matching files (up to 20 results).
-            """
-            try:
-                matches = []
-                for item in self.repo_path.rglob("*"):
-                    if item.is_file() and not item.name.startswith("."):
-                        rel_path = item.relative_to(self.repo_path)
-
-                        # Filter by extension if provided
-                        if extension:
-                            ext_filter = f".{extension}"
-                            if not item.name.endswith(ext_filter):
-                                continue
-
-                        # Filter by pattern if provided
-                        if pattern:
-                            if pattern.lower() not in item.name.lower():
-                                continue
-
-                        matches.append(str(rel_path))
-
-                if not matches:
-                    msg = "No files found matching criteria"
-                    if pattern:
-                        msg += f" (pattern: '{pattern}')"
-                    if extension:
-                        msg += f" (extension: .{extension})"
-                    return msg
-
-                matches.sort()
-                total = len(matches)
-                shown = matches[:20]
-                result = f"Found {total} files:\n"
-                result += "\n".join(f"📄 {f}" for f in shown)
-                if total > 20:
-                    result += f"\n... and {total - 20} more"
-                return result
-
-            except Exception as e:
-                logger.error(f"Error finding files: {e}")
-                return f"Error finding files: {e}"
-
         return [
             Tool(
                 name="semantic_search",
@@ -305,17 +255,6 @@ class AgenticRAGPipeline(Pipeline):
                     "repository root. Example: 'LICENSE' or 'src/main.py'"
                 ),
                 func=read_file,
-            ),
-            Tool(
-                name="find_files",
-                description=(
-                    "Find files by pattern or extension in the repository. "
-                    "Input format: 'pattern=<name>, extension=<ext>' or "
-                    "just 'pattern=<name>' or 'extension=<ext>'. "
-                    "Example: 'pattern=license, extension=md' to find "
-                    "markdown files with 'license' in the name."
-                ),
-                func=find_files,
             ),
         ]
 

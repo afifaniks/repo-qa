@@ -17,7 +17,7 @@ CRITICAL INSTRUCTIONS:
 1. You MUST start every response with either 'Thought:' or 'Final Answer:'.
 2. After receiving an Observation, always continue with a new 'Thought:'.
 3. Never output unstructured text — always use the required labels.
-4. You must VIEW all relevant file contents before making conclusions.
+4. You must VIEW all relevant file contents before making conclusions. One query may require multiple files to answer.ß
 5. Keep reasoning concise but complete — don't skip intermediate reasoning steps.
 6. Stop only when you are confident enough to provide a 'Final Answer'.
 
@@ -26,3 +26,15 @@ Now begin.
 
 Question: {input}
 Thought: {agent_scratchpad}"""
+
+
+BASIC_RAG_PROMPT = """
+You are a helpful code assistant. Use the provided code context to answer the question clearly and concisely.
+
+Each code snippet is labeled with its file path. Reference specific files when answering if relevant.
+
+Context:
+{context}
+
+Question: {question}
+Answer:"""
