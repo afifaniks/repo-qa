@@ -80,3 +80,4 @@ models/
 # Project
 chroma_data/
 repo_data/
+ollama_data/

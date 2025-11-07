@@ -11,6 +11,10 @@ APACHE SOFTWARE LICENSE 2.0 COMPONENTS
 
 The following components are provided under the Apache Software License 2.0:
 
+accelerate
+Copyright (c) The HuggingFace team
+License: Apache Software License
+
 chromadb
 Copyright (c) Jeff Huber <jeff@trychroma.com>, Anton Troynikov <anton@trychroma.com>
 License: Apache Software License
@@ -47,8 +51,20 @@ MIT LICENSE COMPONENTS
 
 The following components are provided under the MIT License:
 
+PyYAML
+Copyright (c) Kirill Simonov
+License: MIT License
+
+bitsandbytes
+Copyright (c) Tim Dettmers
+License: MIT
+
 black
-Copyright (c) Łukasz Langa <lukasz@langa.pl>
+Copyright (c) Łukasz Langa
+License: MIT License
+
+docstring-parser
+Copyright (c) Marcin Kurczewski
 License: MIT License
 
 flake8
@@ -56,18 +72,34 @@ Copyright (c) Tarek Ziade
 License: MIT License
 
 isort
-Copyright (c) Timothy Crosley <timothy.crosley@gmail.com>, staticdev <staticdev-support@proton.me>
+Copyright (c) Timothy Crosley
 License: MIT License
 
 langchain
 License: MIT
 
+langchain-chroma
+License: MIT
+
+langchain-community
+License: MIT
+
+langchain-huggingface
+License: MIT
+
+langchain-ollama
+License: MIT
+
+loguru
+Copyright (c) Delgan <delgan.py@gmail.com>
+License: MIT License
+
 mypy
-Copyright (c) Jukka Lehtosalo <jukka.lehtosalo@iki.fi>
+Copyright (c) Jukka Lehtosalo
 License: MIT License
 
 pytest
-Copyright (c) Holger Krekel, Bruno Oliveira, Ronny Pfannschmidt, Floris Bruynooghe, Brianna Laugher, Florian Bruhin, Others (See AUTHORS)
+Copyright (c) Holger Krekel, Bruno Oliveira, Ronny Pfannschmidt, Floris Bruynooghe, Brianna Laugher, Florian Bruhin and others
 License: MIT License
 
 ================================================================================
@@ -91,4 +123,4 @@ repositories.
 
 For questions about licensing, please contact: afif.mamun@ucalgary.ca
 
-Last updated: September 29, 2025
+Last updated: November 07, 2025

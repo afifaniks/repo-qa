@@ -1,0 +1,36 @@
+# RepoQA Configuration
+
+# LLM Configuration
+llm:
+  model: "qwen3:1.7b"
+  backend: "ollama"
+  temperature: 0.3
+  ollama_base_url: "http://localhost:11434"
+
+# Embedding Configuration
+embedding:
+  model: "all-mpnet-base-v2"
+
+# Vector Store Configuration
+vectorstore:
+  persist_directory: "./chroma_data"
+  collection_name_prefix: "repo_qa"
+  chunk_size: 768
+
+# Repository Configuration
+repository:
+  clone_directory: "./repo_data"
+
+# Pipeline Configuration
+pipeline:
+  mode: "agent"
+  max_iterations: 10
+  max_execution_time: 120
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  title: "RepoQA API"
+  description: "Repository-level Question Answering with RAG"
+  version: "1.0.0"
