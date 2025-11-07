@@ -95,17 +95,6 @@ curl -X POST http://localhost:8000/ask \
   }'
 ```
 
-Or use the Python client:
-
-```bash
-# Download the client
-wget https://raw.githubusercontent.com/afifaniks/repo-qa/main/client.py
-
-# Ask questions
-python client.py \
-  --repo "https://github.com/afifaniks/repoqa.git" \
-  --question "How to contribute to this project?"
-```
 
 ### Building from Source
 
