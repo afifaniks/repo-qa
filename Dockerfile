@@ -1,33 +1,41 @@
-# Use Python base image
 FROM python:3.11-slim
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
+    wget \
     git \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+    gcc \
+    curl \
+    gfortran \
+    python3-pkgconfig \
+    libopenblas-dev \
+    python3-dev \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/* --verbose
 
-# --- Install Ollama ---
+
 RUN curl -fsSL https://ollama.com/install.sh | bash
 
-# Expose Ollama's API port
-EXPOSE 11434
 
-# Set working directory
 WORKDIR /app
 
-# Copy requirements and install Python dependencies
+
 COPY requirements.txt pyproject.toml ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
 COPY . .
 
 # Install the package in editable mode
 RUN pip install -e .
 
-# --- Start Ollama + your app together ---
-# Start Ollama as a background process before running the app
-CMD ollama serve & sleep 5 && python -m repoqa.app
+# Copy and set up the startup script
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
+# Create directory for Ollama data
+RUN mkdir -p /root/.ollama
+
+# Define volume for Ollama models
+VOLUME ["/root/.ollama"]
+
+CMD ["/app/start.sh"]
