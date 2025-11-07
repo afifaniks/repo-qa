@@ -9,6 +9,8 @@ from typing import Any, Dict, Optional, Union
 
 from loguru import logger
 
+from repoqa.embedding.sentence_transformer import SentenceTransformerEmbedding
+from repoqa.indexing.git_indexer import GitRepoIndexer
 from repoqa.llm.llm_factory import get_llm
 from repoqa.util.setup_util import setup
 
@@ -24,39 +26,54 @@ class RepoQA:
     def __init__(
         self,
         llm_model: Any,
-        persist_directory: Optional[str] = "./chroma_data",
-        collection_name: str = "repo_qa",
-        ollama_base_url: str = "http://localhost:11434",
-        mode: str = "hybrid",  # "rag", "agent", or "hybrid"
+        embedding_model: str,
+        collection_name: str,
+        ollama_base_url: str,
+        mode: str,
+        repo_path: str,
+        persist_directory: str,
+        temperature: float = 0.3,
     ):
         """Initialize RepoQA with customizable components.
 
         Args:
-            llm_model: A supported llm model.
-            persist_directory: Directory for vector store persistence.
-            collection_name: Name for the vector store collection.
+            llm_model: Name of the LLM model to use.
+            embedding_model: Name of the embedding model.
+            collection_name: Name of the vector store collection.
             ollama_base_url: Base URL for Ollama server.
-            mode: "rag" (vector search), "agent" (file tools)
+            mode: Operation mode, either 'agent' or 'rag'.
+            repo_path: Path to the repository for agentic operations.
+            persist_directory: Directory to persist vector store data.
+            temperature: Sampling temperature for LLM responses.
         """
         self.mode = mode
+
+        repo_indexer = GitRepoIndexer(
+            SentenceTransformerEmbedding(model_name=embedding_model)
+        )
 
         if mode == "agent":
             logger.info("Initializing Agent pipeline...")
             self.pipeline = AgenticRAGPipeline(
                 llm_model=llm_model,
-                persist_directory=persist_directory or "./chroma_data",
+                embedding_model=embedding_model,
+                persist_directory=persist_directory,
                 collection_name=collection_name,
                 ollama_base_url=ollama_base_url,
-                temperature=0.3,
+                temperature=temperature,
+                repo_path=repo_path,
+                repo_indexer=repo_indexer,
             )
         elif mode == "rag":
             logger.info("Initializing RAG pipeline...")
             self.pipeline = RAGPipeline(
                 llm_model=llm_model,
-                persist_directory=persist_directory or "./chroma_data",
+                embedding_model=embedding_model,
+                persist_directory=persist_directory,
                 collection_name=collection_name,
                 ollama_base_url=ollama_base_url,
-                temperature=0.3,
+                temperature=temperature,
+                repo_indexer=repo_indexer,
             )
         else:
             raise ValueError(f"Unsupported mode: {mode}")
