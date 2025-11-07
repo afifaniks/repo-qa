@@ -1,11 +1,9 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2025 Afif Al Mamun
 import re
-from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any
 
 from langchain_chroma import Chroma
-from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
@@ -13,7 +11,6 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from loguru import logger
 
 from repoqa.embedding import SentenceTransformerEmbedding
-from repoqa.indexing.git_indexer import GitRepoIndexer
 from repoqa.pipeline.pipeline import Pipeline
 from repoqa.pipeline.prompts import BASIC_RAG_PROMPT
 
@@ -24,11 +21,12 @@ class RAGPipeline(Pipeline):
     def __init__(
         self,
         llm_model: Any,
-        embedding_model: str = "all-mpnet-base-v2",
-        persist_directory: str = "./chroma_data",
-        collection_name: str = "repo_qa",
-        ollama_base_url: str = "http://localhost:11434",
-        temperature: float = 0.3,
+        embedding_model: str,
+        persist_directory: str,
+        collection_name: str,
+        ollama_base_url: str,
+        temperature: float,
+        repo_indexer: Any,
     ):
         """Initialize the RAG pipeline.
 
@@ -69,7 +67,7 @@ class RAGPipeline(Pipeline):
         self.embedding_model_obj = SentenceTransformerEmbedding(
             model_name=embedding_model
         )
-        self.indexer = GitRepoIndexer(self.embedding_model_obj)
+        self.indexer = repo_indexer
 
         # Track source files for attribution
         self.source_files = []
@@ -143,76 +141,6 @@ class RAGPipeline(Pipeline):
     def _retrieve_and_format(self, query):
         docs = self._safe_retriever(query)
         return self._format_docs(docs)
-
-    def index_repository(
-        self,
-        repo_path: Union[str, Path],
-        clone_dir: Optional[str] = None,
-    ) -> Dict[str, Any]:
-        """Index a repository and add to vector store.
-
-        Args:
-            repo_path: Path or URL of the repository.
-            clone_dir: Directory to clone into.
-
-        Returns:
-            Indexing results.
-        """
-        # Index repository using existing indexer
-        result = self.indexer.index_repository(
-            repo_path=str(repo_path),
-            clone_dir=clone_dir,
-        )
-
-        # Convert chunks to LangChain documents
-        documents = []
-        logger.info(f"🔍 Processing {len(result.get('chunks', []))} chunks...")
-
-        for i, chunk in enumerate(result.get("chunks", [])):
-            # Validate chunk structure
-            if not hasattr(chunk, "content") or not hasattr(chunk, "file_path"):
-                logger.warning(f"Chunk {i} missing required attributes")
-                continue
-
-            # Validate content is not None and is a string
-            content = chunk.content
-            if content is None:
-                logger.warning(f"Chunk {i} has None content from {chunk.file_path}")
-                continue
-
-            if not isinstance(content, str):
-                logger.warning(f"Chunk {i} has non-string content: {type(content)}")
-                continue
-
-            # Ensure content is not empty
-            if not content.strip():
-                logger.warning(f"Skipping empty chunk: {chunk.file_path}")
-                continue
-
-            try:
-                doc = Document(
-                    page_content=content.strip(),
-                    metadata={
-                        "file_path": chunk.file_path or "unknown",
-                    },
-                )
-                documents.append(doc)
-            except (ValueError, TypeError) as e:
-                logger.error(f"Error creating document from chunk {i}: {e}")
-                logger.error(f"   Content type: {type(content)}")
-                logger.error(f"   Content preview: {repr(content[:100])}")
-                continue
-
-        # Add documents to vector store
-        if documents:
-            self.vectorstore.add_documents(documents)
-            logger.info(f"Added {len(documents)} documents to vector store")
-
-        return {
-            "status": "success",
-            "documents_added": len(documents),
-            "chunks_processed": len(result["chunks"]),
-        }
 
     def _clean_response(self, response: str) -> str:
         """Clean and format the generated response.

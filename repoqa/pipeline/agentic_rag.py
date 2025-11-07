@@ -2,11 +2,10 @@
 # Copyright (c) 2025 Afif Al Mamun
 
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, List
 
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_chroma import Chroma
-from langchain_core.documents import Document
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import Tool
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -24,12 +23,13 @@ class AgenticRAGPipeline(Pipeline):
     def __init__(
         self,
         llm_model: Any,
-        embedding_model: str = "all-mpnet-base-v2",
-        persist_directory: str = "./chroma_data",
-        collection_name: str = "repo_qa",
-        ollama_base_url: str = "http://localhost:11434",
-        temperature: float = 0.3,
-        repo_path: str = "./repo_data",
+        embedding_model: str,
+        persist_directory: str,
+        collection_name: str,
+        ollama_base_url: str,
+        temperature: float,
+        repo_path: str,
+        repo_indexer: Any,
     ):
         """Initialize the hybrid RAG-Agent pipeline.
 
@@ -57,11 +57,7 @@ class AgenticRAGPipeline(Pipeline):
             embedding_function=self.embeddings,
             persist_directory=persist_directory,
         )
-
-        self.embedding_model_obj = SentenceTransformerEmbedding(
-            model_name=embedding_model
-        )
-        self.indexer = GitRepoIndexer(self.embedding_model_obj)
+        self.indexer = repo_indexer
 
         # Track accessed files for source attribution
         self.accessed_files = set()
@@ -276,75 +272,6 @@ class AgenticRAGPipeline(Pipeline):
             handle_parsing_errors=True,
             return_intermediate_steps=False,
         )
-
-    def index_repository(
-        self,
-        repo_path: Union[str, Path],
-        clone_dir: Optional[str] = None,
-    ) -> Dict[str, Any]:
-        """Index repository for RAG and set path for file exploration."""
-        # First, run the indexer to get the repository
-        result = self.indexer.index_repository(
-            repo_path=str(repo_path),
-            clone_dir=clone_dir,
-        )
-
-        # Set the correct repository path for file exploration
-        if clone_dir:
-            base_path = Path(clone_dir)
-            if str(repo_path).startswith(("http", "git")):
-                subdirs = [
-                    d
-                    for d in base_path.iterdir()
-                    if d.is_dir() and not d.name.startswith(".")
-                ]
-                if subdirs:
-                    self.repo_path = subdirs[0].resolve()
-                else:
-                    self.repo_path = base_path.resolve()
-            else:
-                self.repo_path = base_path.resolve()
-        else:
-            self.repo_path = Path(repo_path).resolve()
-
-        documents = []
-        chunks = result.get("chunks", [])
-
-        for chunk in chunks:
-            if not hasattr(chunk, "content") or not hasattr(chunk, "file_path"):
-                continue
-
-            content = chunk.content
-            if not content or not isinstance(content, str) or not content.strip():
-                continue
-
-            try:
-                doc = Document(
-                    page_content=content.strip(),
-                    metadata={"file_path": chunk.file_path or "unknown"},
-                )
-                documents.append(doc)
-            except Exception as e:
-                logger.error(f"Error creating document: {e}")
-                continue
-
-        if documents:
-            self.vectorstore.add_documents(documents)
-            logger.info(f"Added {len(documents)} documents to vector store")
-
-        if not self.repo_path.exists():
-            logger.error(f"Repository path does not exist: {self.repo_path}")
-        else:
-            logger.info(f"Repository indexed at: {self.repo_path}")
-
-        return {
-            "status": "success",
-            "documents_added": len(documents),
-            "chunks_processed": len(result["chunks"]),
-            "repo_path": str(self.repo_path),
-            "rag_enabled": True,
-            "file_exploration_enabled": True,
-        }
 
     def ask(self, query: str) -> str:
         """Ask the hybrid RAG-Agent a question."""
