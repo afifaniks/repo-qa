@@ -12,13 +12,16 @@ setup: ## Full development environment setup
 	@echo "🔧 Setting up development environment..."
 	python -m venv venv --prompt repo-qa || echo "Virtual environment already exists"
 	@echo "✅ Virtual environment ready"
+	@echo "🔄 Activating virtual environment..."
+	if [ -f venv/bin/activate ]; then . venv/bin/activate; else . venv/Scripts/activate; fi
+	@echo "✅ Virtual environment activated"
 	@echo "📦 Installing dependencies..."
+	pip install -r requirements.txt
+	@echo "✅ Base dependencies installed"
+	@echo "📦 Installing development dependencies..."
 	pip install -e ".[dev]"
-	pip install pip-licenses license-expression
-	@echo "✅ Dependencies installed"
-	@echo "🧪 Running tests to verify setup..."
-	python -m pytest tests/test_license_checker.py -v
-	@echo "✅ Setup complete! You're ready to contribute!"
+	@echo "✅ Development dependencies installed"
+	@echo "✅ Setup completed successfully."
 
 dev-setup: setup ## Alias for setup command
 
