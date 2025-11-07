@@ -260,15 +260,13 @@ class AgenticRAGPipeline(Pipeline):
         prompt = PromptTemplate.from_template(REACT_AGENT_PROMPT)
         self.agent = create_react_agent(self.llm, self.tools, prompt)
 
-        # Use True to enable default handling
-        # This will pass errors back to the agent
+        # Use custom error handling
         self.agent_executor = AgentExecutor(
             agent=self.agent,
             tools=self.tools,
             verbose=True,
-            max_iterations=10,
-            max_execution_time=120,
-            early_stopping_method="force",
+            max_iterations=50,
+            max_execution_time=1000,
             handle_parsing_errors=True,
             return_intermediate_steps=False,
         )

@@ -10,7 +10,12 @@ from pydantic import BaseModel, Field
 from repoqa.app import RepoQA
 from repoqa.config import config
 from repoqa.llm.llm_factory import get_llm
-from repoqa.util.setup_util import get_collection_name, setup
+from repoqa.storage.collection_manager import (
+    collection_exists_and_has_documents,
+    delete_collection,
+    get_collection_name,
+)
+from repoqa.util.setup_util import setup
 
 setup()
 
@@ -39,9 +44,9 @@ class QuestionRequest(BaseModel):
     llm_model: Optional[str] = Field(
         default=config.llm_model, description="LLM model to use"
     )
-    skip_indexing: Optional[bool] = Field(
+    force_update: Optional[bool] = Field(
         default=False,
-        description="Skip indexing if repo already indexed",
+        description="Force re-indexing by deleting and recreating collection",
     )
 
 
@@ -79,6 +84,18 @@ async def ask_question(request: QuestionRequest):
         collection_name = get_collection_name(request.repo)
         logger.info(f"Using collection '{collection_name}' for repo: {request.repo}")
 
+        # Handle force_update: delete existing collection if it exists
+        if request.force_update:
+            logger.info(
+                f"Force update requested, deleting collection " f"'{collection_name}'"
+            )
+            delete_collection(config.vectorstore_persist_directory, collection_name)
+
+        # Check if collection already exists with documents
+        collection_has_data = collection_exists_and_has_documents(
+            config.vectorstore_persist_directory, collection_name
+        )
+
         # Create new RepoQA instance for each request
         logger.info(f"Initializing RepoQA for repo: {request.repo}")
         llm_model = request.llm_model or config.llm_model
@@ -86,6 +103,7 @@ async def ask_question(request: QuestionRequest):
             persist_directory=config.vectorstore_persist_directory,
             embedding_model=config.embedding_model,
             collection_name=collection_name,
+            collection_chunk_size=config.vectorstore_chunk_size,
             llm_model=get_llm(llm_model, backend=config.llm_backend),
             mode=request.mode,
             repo_path=config.repository_clone_directory,
@@ -93,9 +111,9 @@ async def ask_question(request: QuestionRequest):
             temperature=config.llm_temperature,
         )
 
-        # Index repository if needed
+        # Index repository if collection doesn't exist or force_update is True
         indexed = False
-        if not request.skip_indexing:
+        if request.force_update or not collection_has_data:
             logger.info(f"Indexing repository: {request.repo}")
             result = repo_qa_instance.index_repository(
                 repo_path=request.repo,
@@ -103,6 +121,11 @@ async def ask_question(request: QuestionRequest):
             )
             logger.info(f"Indexing completed: {result}")
             indexed = True
+        else:
+            logger.info(
+                f"Collection '{collection_name}' already exists with data, "
+                "skipping indexing"
+            )
 
         # Ask question
         logger.info(f"Processing question: {request.question}")

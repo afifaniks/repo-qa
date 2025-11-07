@@ -28,6 +28,7 @@ class RepoQA:
         llm_model: Any,
         embedding_model: str,
         collection_name: str,
+        collection_chunk_size: int,
         ollama_base_url: str,
         mode: str,
         repo_path: str,
@@ -40,6 +41,7 @@ class RepoQA:
             llm_model: Name of the LLM model to use.
             embedding_model: Name of the embedding model.
             collection_name: Name of the vector store collection.
+            collection_chunk_size: Chunk size for document splitting.
             ollama_base_url: Base URL for Ollama server.
             mode: Operation mode, either 'agent' or 'rag'.
             repo_path: Path to the repository for agentic operations.
@@ -49,7 +51,8 @@ class RepoQA:
         self.mode = mode
 
         repo_indexer = GitRepoIndexer(
-            SentenceTransformerEmbedding(model_name=embedding_model)
+            SentenceTransformerEmbedding(model_name=embedding_model),
+            chunk_size=collection_chunk_size,
         )
 
         if mode == "agent":

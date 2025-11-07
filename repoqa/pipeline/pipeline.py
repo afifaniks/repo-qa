@@ -37,8 +37,12 @@ class Pipeline(ABC):
         )
 
         # Set the correct repository path for file exploration (for agentic)
+        # Use the actual repo_path returned by the indexer
         if hasattr(self, "repo_path"):
-            if clone_dir:
+            actual_repo_path = result.get("repo_path")
+            if actual_repo_path:
+                self.repo_path = Path(actual_repo_path).resolve()
+            elif clone_dir:
                 base_path = Path(clone_dir)
                 if str(repo_path).startswith(("http", "git")):
                     subdirs = [

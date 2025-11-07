@@ -155,6 +155,11 @@ class Config:
         return self.get("vectorstore.collection_name_prefix")
 
     @property
+    def vectorstore_chunk_size(self) -> int:
+        """Get vector store chunk size."""
+        return self.get("vectorstore.chunk_size")
+
+    @property
     def repository_clone_directory(self) -> str:
         """Get repository clone directory."""
         return self.get("repository.clone_directory")

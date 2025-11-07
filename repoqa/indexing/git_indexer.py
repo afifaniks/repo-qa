@@ -4,6 +4,7 @@
 import os
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
+from fnmatch import fnmatch
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
@@ -53,11 +54,26 @@ class GitRepoIndexer(RepoIndexer):
         self.batch_size = batch_size
 
     def _should_ignore(self, path: str) -> bool:
+        """Check if a path should be ignored.
+
+        Args:
+            path: File or directory path to check
+
+        Returns:
+            True if the path should be ignored, False otherwise
+        """
         path_parts = Path(path).parts
-        return any(
-            ignore in path_parts or path.endswith(ignore)
-            for ignore in self.IGNORE_PATTERNS
-        )
+        path_name = Path(path).name
+
+        for pattern in self.IGNORE_PATTERNS:
+            # Check if pattern matches directory name
+            if any(fnmatch(part, pattern) for part in path_parts):
+                return True
+            # Check if pattern matches file name
+            if fnmatch(path_name, pattern):
+                return True
+
+        return False
 
     def _chunk_file(self, file_path: str) -> List[CodeChunk]:
         """Split a file into simple text chunks."""
@@ -151,6 +167,7 @@ class GitRepoIndexer(RepoIndexer):
                 "embeddings": embeddings,
                 "file_count": len(code_files),
                 "repo_info": repo_info,
+                "repo_path": repo_path,  # Return the actual repo path used
             }
         finally:
             if temp_dir:
