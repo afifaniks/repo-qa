@@ -15,6 +15,7 @@ embedding:
 vectorstore:
   persist_directory: "./chroma_data"
   collection_name_prefix: "repo_qa"
+  chunk_size: 768
 
 # Repository Configuration
 repository:
