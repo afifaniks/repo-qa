@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2025 Afif Al Mamun
 
+import argparse
+import os
+import sys
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
@@ -23,7 +26,7 @@ class RepoQA:
         llm_model: Any,
         persist_directory: Optional[str] = "./chroma_data",
         collection_name: str = "repo_qa",
-        ollama_base_url: str = "http://localhost:11435",
+        ollama_base_url: str = "http://localhost:11434",
         mode: str = "hybrid",  # "rag", "agent", or "hybrid"
     ):
         """Initialize RepoQA with customizable components.
@@ -33,8 +36,7 @@ class RepoQA:
             persist_directory: Directory for vector store persistence.
             collection_name: Name for the vector store collection.
             ollama_base_url: Base URL for Ollama server.
-            mode: "rag" (vector search), "agent" (file tools), or
-                "hybrid" (RAG + tools).
+            mode: "rag" (vector search), "agent" (file tools)
         """
         self.mode = mode
 
@@ -47,7 +49,7 @@ class RepoQA:
                 ollama_base_url=ollama_base_url,
                 temperature=0.3,
             )
-        else:
+        elif mode == "rag":
             logger.info("Initializing RAG pipeline...")
             self.pipeline = RAGPipeline(
                 llm_model=llm_model,
@@ -56,6 +58,8 @@ class RepoQA:
                 ollama_base_url=ollama_base_url,
                 temperature=0.3,
             )
+        else:
+            raise ValueError(f"Unsupported mode: {mode}")
 
     def index_repository(
         self,
@@ -86,31 +90,56 @@ class RepoQA:
 
 
 if __name__ == "__main__":
-    # Use agent mode by default - much more powerful for code exploration
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(
+        description="RepoQA: Ask questions about code repositories"
+    )
+    parser.add_argument(
+        "--repo",
+        type=str,
+        default=os.getenv("REPO_PATH"),
+        help="Repository path or URL (can also use REPO_PATH env var)",
+    )
+    parser.add_argument(
+        "--question",
+        type=str,
+        default=os.getenv("QUESTION"),
+        help="Question to ask (can also use QUESTION env var)",
+    )
+    parser.add_argument(
+        "--llm",
+        type=str,
+        default=os.getenv("LLM_MODEL", "qwen3:1.7b"),
+        help="LLM model to use (default: qwen3:1.7b)",
+    )
+
+    args = parser.parse_args()
+
+    # Validate required arguments
+    if not args.repo:
+        parser.error("--repo or REPO_PATH environment variable is required")
+    if not args.question:
+        parser.error("--question or QUESTION environment variable is required")
+
+    # Initialize RepoQA
+    logger.info("Initializing RepoQA...")
     repo_qa = RepoQA(
         persist_directory="./chroma_data",
         collection_name="demo_repo",
-        llm_model=get_llm("qwen3:1.7b", backend="ollama"),
+        llm_model=get_llm(args.llm, backend="ollama"),
         mode="agent",
     )
 
-    # Index a repository
-    print("Indexing repository...")
+    # Index repository
+    logger.info(f"Indexing repository: {args.repo}")
     result = repo_qa.index_repository(
-        repo_path="git@github.com:afifaniks/repo-qa.git",
+        repo_path=args.repo,
         clone_dir="./repo_data",
     )
-    print(f"Indexing completed: {result}")
+    logger.info(f"Indexing completed: {result}")
 
-    # Ask questions
-    questions = [
-        # "How the agent pipeline works?",
-        # "If I want to contribute to this project, which licenses I can use for new dependencies?",
-        # "Can I use copyleft licenses for this project?",
-        "How to run this application?",
-    ]
-
-    for question in questions:
-        print(f"\nQ: {question}")
-        answer = repo_qa.ask(question)
-        print(f"A: {answer}")
+    # Ask question
+    logger.info(f"Question: {args.question}")
+    answer = repo_qa.ask(args.question)
+    print(f"\nQ: {args.question}")
+    print(f"A: {answer}")
