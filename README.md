@@ -157,4 +157,4 @@ All dependencies are checked for license compatibility. See our:
 - [License Policy Quick Reference](docs/license-policy.md) for allowed/prohibited licenses
 
 ## Generative AI Usage
-GitHub Copilot with Claude Sonnet 4 was used to generate boilerplates, documentation, etc. for this project. However, all the generated contents were manually validated.
+GitHub Copilot with Claude Sonnet 4 was used to generate boilerplates, documentation, test cases for this project. However, all the generated contents were manually validated.
