@@ -5,8 +5,7 @@
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/afifaniks/repoqa)
 [![Docker Image Size](https://img.shields.io/docker/image-size/afifaniks/repoqa/latest)](https://hub.docker.com/r/afifaniks/repoqa)
 [![Docker Pulls](https://img.shields.io/docker/pulls/afifaniks/repoqa)](https://hub.docker.com/r/afifaniks/repoqa)
-[![Tests](https://img.shields.io/badge/tests-145%20passed-brightgreen)](https://github.com/afifaniks/repo-qa)
-[![Coverage](https://img.shields.io/badge/coverage-88%25-brightgreen)](https://github.com/afifaniks/repo-qa)
+[![codecov](https://codecov.io/github/afifaniks/repoqa/graph/badge.svg?token=APVRZCE8G9)](https://codecov.io/github/afifaniks/repoqa)
 
 ![](assets/preview.jpg)
 <small><i>Image generated with ChatGPT</i></small>
