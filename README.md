@@ -1,6 +1,11 @@
 # RepoQA: Repository-level Question Answering with RAG
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/afifaniks/repoqa)
+[![Docker Image Size](https://img.shields.io/docker/image-size/afifaniks/repoqa/latest)](https://hub.docker.com/r/afifaniks/repoqa)
+[![Docker Pulls](https://img.shields.io/docker/pulls/afifaniks/repoqa)](https://hub.docker.com/r/afifaniks/repoqa)
+[![codecov](https://codecov.io/github/afifaniks/repoqa/graph/badge.svg?token=APVRZCE8G9)](https://codecov.io/github/afifaniks/repoqa)
 
 ![](assets/preview.jpg)
 <small><i>Image generated with ChatGPT</i></small>
@@ -42,18 +47,35 @@ The easiest way to get started with RepoQA is using Docker:
 # Pull the image from Docker Hub
 docker pull afifaniks/repoqa:latest
 
-# Run with GPU support
-docker run --device nvidia.com/gpu=all \
+# Run with GPU support (Docker with NVIDIA Container Toolkit)
+docker run --gpus all \
   -v $(pwd)/ollama_data:/root/.ollama \
   -p 8000:8000 \
   afifaniks/repoqa:latest
 
-# Or run without GPU
+# Run with GPU support (Podman with CDI)
+podman run --device nvidia.com/gpu=all \
+  -v $(pwd)/ollama_data:/root/.ollama \
+  -p 8000:8000 \
+  afifaniks/repoqa:latest
+
+# Or run without GPU (Docker)
 docker run \
   -v $(pwd)/ollama_data:/root/.ollama \
   -p 8000:8000 \
   afifaniks/repoqa:latest
+
+# Or run without GPU (Podman)
+podman run \
+  -v $(pwd)/ollama_data:/root/.ollama \
+  -p 8000:8000 \
+  afifaniks/repoqa:latest
 ```
+
+**GPU Support Notes:**
+- **Docker**: Requires [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) and uses `--gpus all` flag
+- **Podman**: Uses CDI (Container Device Interface) with `--device nvidia.com/gpu=all` flag
+- GPU support significantly improves LLM inference performance
 
 The API will be available at `http://localhost:8000`. Visit `http://localhost:8000/docs` for the interactive API documentation.
 
@@ -72,17 +94,6 @@ curl -X POST http://localhost:8000/ask \
   }'
 ```
 
-Or use the Python client:
-
-```bash
-# Download the client
-wget https://raw.githubusercontent.com/afifaniks/repo-qa/main/client.py
-
-# Ask questions
-python client.py \
-  --repo "https://github.com/afifaniks/repoqa.git" \
-  --question "How to contribute to this project?"
-```
 
 ### Building from Source
 
@@ -93,11 +104,36 @@ If you want to build the Docker image yourself:
 git clone https://github.com/afifaniks/repo-qa.git
 cd repo-qa
 
-# Build the image
+# Build with Docker
 docker build -t repoqa .
 
-# Run the container
-docker run --device nvidia.com/gpu=all \
+# Build with Podman
+podman build -t repoqa .
+```
+
+**Running the Built Image:**
+
+```bash
+# Docker with GPU support (requires NVIDIA Container Toolkit)
+docker run --gpus all \
+  -v $(pwd)/ollama_data:/root/.ollama \
+  -p 8000:8000 \
+  repoqa
+
+# Docker without GPU
+docker run \
+  -v $(pwd)/ollama_data:/root/.ollama \
+  -p 8000:8000 \
+  repoqa
+
+# Podman with GPU support (uses CDI)
+podman run --device nvidia.com/gpu=all \
+  -v $(pwd)/ollama_data:/root/.ollama \
+  -p 8000:8000 \
+  repoqa
+
+# Podman without GPU
+podman run \
   -v $(pwd)/ollama_data:/root/.ollama \
   -p 8000:8000 \
   repoqa
